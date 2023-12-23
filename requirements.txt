@@ -1,0 +1,13 @@
+python-dotenv==1.0.0
+
+pyxui==0.0.9
+
+pyrogram==2.0.106
+pyromod==3.1.6
+Tgcrypto==1.2.5
+
+aiomysql==0.2.0
+peewee==3.17.0
+peewee-async==0.9.1
+
+
