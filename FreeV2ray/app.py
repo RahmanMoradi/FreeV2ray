@@ -40,7 +40,7 @@ if config.get("PROXY_HOSTNAME"):
     app.proxy = proxy
 
 
-# if __name__ == "__main__":
-#     with app:
-#         logger.info("Telegram Bot Is Running ...")
-#         idle()
+if __name__ == "__main__":
+    with app:
+        logger.info("Telegram Bot Is Running ...")
+        idle()
