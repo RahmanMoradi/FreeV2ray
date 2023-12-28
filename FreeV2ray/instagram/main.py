@@ -31,8 +31,9 @@ class InstagramApi:
                 proxies = ["http://" + proxy for proxy in f.readlines()]
 
             return random.choice(proxies)
-
+        print("ok")
         self.client = Client(proxy=next_proxy())
+        print("passed")
         if os.path.exists(IG_CREDENTIAL_PATH):
             self.client.load_settings(IG_CREDENTIAL_PATH)
             self.client.login(IG_USERNAME, IG_PASSWORD)
@@ -66,7 +67,7 @@ class InstagramApi:
         List[str]
             List of usernames
         """
-        followers = self.client.user_followers(self.client.user_id, amount=amount)
+        followers = self.client.user_followers(str(self.client.user_id), amount=amount)
         return [user.username for user in followers.values()]
 
 
