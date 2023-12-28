@@ -26,7 +26,7 @@ app = Client(
     plugins=dict(root="plugins/")
 )
 
-if config.get("PROXY_HOSTNAME") is not None:
+if config.get("PROXY_HOSTNAME"):
     proxy = dict(
         scheme=config.get("PROXY_SCHEME"),
         hostname=config.get("PROXY_HOSTNAME"),
@@ -40,7 +40,7 @@ if config.get("PROXY_HOSTNAME") is not None:
     app.proxy = proxy
 
 
-if __name__ == "__main__":
-    with app:
-        logger.info("Telegram Bot Is Running ...")
-        idle()
+# if __name__ == "__main__":
+#     with app:
+#         logger.info("Telegram Bot Is Running ...")
+#         idle()
