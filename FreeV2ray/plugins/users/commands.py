@@ -37,12 +37,13 @@ async def start_handler(client: Client, message: Message):
         "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!",
         reply_markup=ReplyKeyboardMarkup([
             ["دریافت کانفیگ"],
-            ["پشتیبانی"],
+            ["پشتیبانی", "کانفیگ من"],
         ], resize_keyboard=True)
     )
 
     commands = {
         "دریافت کانفیگ": get_config_handler,
+        "کانفیگ من": my_config_handler,
         "پشتیبانی": support_handler,
     }
     command = commands.get(message.text)
@@ -58,10 +59,17 @@ async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
-        print("Created")
+        # TODO: add the config that has been created to the database
         await message.reply(v2ray_config)
     else:
         await message.reply("شما در حال حاضر کانفیگ دارین!")
+
+
+async def my_config_handler(client: Client, message: Message):
+    panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
+    v2ray_config = panel.get_client(str(message.from_user.id))
+    if not v2ray_config:
+        await message.reply("شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!")
 
 
 async def support_handler(client: Client, message: Message):

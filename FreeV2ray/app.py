@@ -10,7 +10,6 @@ import logging
 import FreeV2ray
 
 path = os.path.dirname(FreeV2ray.__file__)
-
 config_path = str(Path(path).resolve().parents[0]) + "/.env"
 config = dotenv_values(config_path)
 
@@ -23,7 +22,7 @@ app = Client(
     api_id=config.get("API_ID"),
     api_hash=config.get("API_HASH"),
     bot_token=config.get("API_TOKEN"),
-    plugins=dict(root="plugins/")
+    plugins=dict(root="plugins")
 )
 
 if config.get("PROXY_HOSTNAME"):
