@@ -10,6 +10,10 @@ from pyromod import listen, ikb, array_chunk
 from FreeV2ray.app import config
 from FreeV2ray.v2ray.api import V2ray
 
+from datetime import datetime
+from jdatetime import jalali
+
+
 
 @Client.on_message(filters.private)
 async def check_join(client: Client, message: Message):
@@ -67,11 +71,21 @@ async def get_config_handler(client: Client, message: Message):
 
 async def my_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
-    v2ray_config = panel.get_client(str(message.from_user.id))
-    if not v2ray_config:
+    client = panel.get_client(str(message.from_user.id))
+    if not client:
         await message.reply("شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!")
     else:
-        await message.reply(v2ray_config)
+        expire_date = datetime.fromtimestamp(v2ray_config["expiryTime"])
+        expire_date = jalali.GregorianToJalali(expire_date.year, expire_date.month, expire_date.day)
+        email = client['email']
+        v2ray_config = panel.generate_config(email)
+
+        await message.reply(f"نام کاربری: {email}"
+                            "\n"
+                            f"تاریخ انقضا: {expire_date.jyear}/{expire_date.jmonth}/{expire_date.jday}"
+                            "\n"
+                            f"کانفیگ: `{v2ray_config}`"
+                            )
 
 
 async def support_handler(client: Client, message: Message):
