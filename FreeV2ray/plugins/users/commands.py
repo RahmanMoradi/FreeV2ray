@@ -14,7 +14,6 @@ from datetime import datetime
 from jdatetime import jalali
 
 
-
 @Client.on_message(filters.private)
 async def check_join(client: Client, message: Message):
     instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
@@ -35,7 +34,19 @@ async def check_join(client: Client, message: Message):
         )
 
 
-async def wait_for_answer(client: Client, message: Message):
+@Client.on_message(filters.private & filters.command("start"))
+async def start_handler(client: Client, message: Message, text=None):
+    if not text:
+        text = "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
+
+    message = await message.chat.ask(
+        text,
+        reply_markup=ReplyKeyboardMarkup([
+            ["دریافت کانفیگ"],
+            ["پشتیبانی", "کانفیگ من"],
+        ], resize_keyboard=True)
+    )
+
     commands = {
         "دریافت کانفیگ": get_config_handler,
         "کانفیگ من": my_config_handler,
@@ -50,19 +61,6 @@ async def wait_for_answer(client: Client, message: Message):
         return await start_handler(client, message)
 
 
-@Client.on_message(filters.private & filters.command("start"))
-async def start_handler(client: Client, message: Message):
-    message = await message.chat.ask(
-        "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!",
-        reply_markup=ReplyKeyboardMarkup([
-            ["دریافت کانفیگ"],
-            ["پشتیبانی", "کانفیگ من"],
-        ], resize_keyboard=True)
-    )
-
-    await wait_for_answer(client, message)
-
-
 async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
@@ -72,31 +70,28 @@ async def get_config_handler(client: Client, message: Message):
     else:
         await message.reply("شما در حال حاضر کانفیگ دارین!")
 
-    return await wait_for_answer(client, message)
-
 
 async def my_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     client = panel.get_client(str(message.from_user.id))
     if not client:
-        await message.reply("شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!")
+        text = "شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!"
+        return await start_handler(client, message, text=text)
     else:
         expire_date = datetime.fromtimestamp(int(str(client["expiryTime"])[:-3]))
         expire_date = jalali.GregorianToJalali(expire_date.year, expire_date.month, expire_date.day)
         email = client['email']
         v2ray_config = panel.generate_config(email)
 
-        await message.reply(f"نام کاربری: {email}"
-                            "\n"
-                            f"تاریخ انقضا: {expire_date.jyear}/{expire_date.jmonth}/{expire_date.jday}"
-                            "\n"
-                            f"کانفیگ: `{v2ray_config}`"
-                            )
+        text = (f"نام کاربری: {email}"
+                "\n"
+                f"تاریخ انقضا: {expire_date.jyear}/{expire_date.jmonth}/{expire_date.jday}"
+                "\n"
+                f"کانفیگ: `{v2ray_config}`")
 
-        return await wait_for_answer(client, message)
+        return await start_handler(client, message, text=text)
 
 
 async def support_handler(client: Client, message: Message):
-    await message.reply(f"جهت هرگونه سوال یا مشکل به این ایدی مراجعه فرمایین: {config.get('ADMIN')}")
-    return await wait_for_answer(client, message)
-
+    text = f"جهت هرگونه سوال یا مشکل به این ایدی مراجعه فرمایین: {config.get('ADMIN')}"
+    return await start_handler(client, message, text)
