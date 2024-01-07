@@ -49,6 +49,7 @@ async def start_handler(client: Client, message: Message):
     command = commands.get(message.text)
 
     if command:
+        print(command)
         await command(client, message)
     else:
         await message.reply("دستور نامعتبر! لطفا دوباره امتجان کنید:")
