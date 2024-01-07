@@ -82,7 +82,7 @@ class V2ray:
             "add": config.get("V2RAY_ADDRESS"),
             "aid": "0",
             "host": config.get("V2RAY_HOST"),
-            "id": uuid,
+            "id": client["id"],
             "net": "ws",
             "path": config.get("V2RAY_PATH"),
             "port": config.get("V2RAY_PORT"),
