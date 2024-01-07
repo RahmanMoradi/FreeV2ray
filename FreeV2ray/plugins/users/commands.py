@@ -72,6 +72,8 @@ async def get_config_handler(client: Client, message: Message):
     else:
         await message.reply("شما در حال حاضر کانفیگ دارین!")
 
+    return await wait_for_answer(client, message)
+
 
 async def my_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
@@ -91,6 +93,10 @@ async def my_config_handler(client: Client, message: Message):
                             f"کانفیگ: `{v2ray_config}`"
                             )
 
+        return await wait_for_answer(client, message)
+
 
 async def support_handler(client: Client, message: Message):
-    return await message.reply(f"جهت هرگونه سوال یا مشکل به این ایدی مراجعه فرمایین: {config.get('ADMIN')}")
+    await message.reply(f"جهت هرگونه سوال یا مشکل به این ایدی مراجعه فرمایین: {config.get('ADMIN')}")
+    return await wait_for_answer(client, message)
+
