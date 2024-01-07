@@ -35,16 +35,7 @@ async def check_join(client: Client, message: Message):
         )
 
 
-@Client.on_message(filters.private & filters.command("start"))
-async def start_handler(client: Client, message: Message):
-    message = await message.chat.ask(
-        "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!",
-        reply_markup=ReplyKeyboardMarkup([
-            ["دریافت کانفیگ"],
-            ["پشتیبانی", "کانفیگ من"],
-        ], resize_keyboard=True)
-    )
-
+async def wait_for_answer(client: Client, message: Message):
     commands = {
         "دریافت کانفیگ": get_config_handler,
         "کانفیگ من": my_config_handler,
@@ -57,6 +48,19 @@ async def start_handler(client: Client, message: Message):
     else:
         await message.reply("دستور نامعتبر! لطفا دوباره امتجان کنید:")
         return await start_handler(client, message)
+
+
+@Client.on_message(filters.private & filters.command("start"))
+async def start_handler(client: Client, message: Message):
+    message = await message.chat.ask(
+        "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!",
+        reply_markup=ReplyKeyboardMarkup([
+            ["دریافت کانفیگ"],
+            ["پشتیبانی", "کانفیگ من"],
+        ], resize_keyboard=True)
+    )
+
+    await wait_for_answer(client, message)
 
 
 async def get_config_handler(client: Client, message: Message):
