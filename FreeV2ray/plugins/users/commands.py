@@ -49,7 +49,6 @@ async def start_handler(client: Client, message: Message):
     command = commands.get(message.text)
 
     if command:
-        print(command)
         await command(client, message)
     else:
         await message.reply("دستور نامعتبر! لطفا دوباره امتجان کنید:")
@@ -71,6 +70,8 @@ async def my_config_handler(client: Client, message: Message):
     v2ray_config = panel.get_client(str(message.from_user.id))
     if not v2ray_config:
         await message.reply("شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!")
+    else:
+        await message.reply(v2ray_config)
 
 
 async def support_handler(client: Client, message: Message):
