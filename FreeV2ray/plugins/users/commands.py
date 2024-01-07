@@ -66,7 +66,12 @@ async def get_config_handler(client: Client, message: Message):
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
         # TODO: add the config that has been created to the database
-        await start_handler(client, message, v2ray_config)
+        await start_handler(client, message,
+                                ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
+                                 "\n"
+                                 f"کانفیگ: `{v2ray_config}`"
+                                 )
+                            )
     else:
         await start_handler(client, message, "شما در حال حاضر کانفیگ دارین!")
 
