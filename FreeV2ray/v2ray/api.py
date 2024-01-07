@@ -23,7 +23,7 @@ class V2ray:
             last_session = models.XuiSession.select().order_by(models.XuiSession.id.desc()).get()
             if last_session:
                 self.xui = XUI(
-                    full_address="https://web.mofidrailygod.website:2053",
+                    full_address=config.get("V2RAY_ADDRESS"),
                     panel="sanaei",
                     session_string=last_session.session_string
                 )
@@ -35,7 +35,7 @@ class V2ray:
         # if there was no session stored:
         if not self.xui:
             self.xui = XUI(
-                full_address="https://web.mofidrailygod.website:2053",
+                full_address=config.get("V2RAY_ADDRESS"),
                 panel="sanaei",
             )
             self.xui.login(self.username, self.password)
