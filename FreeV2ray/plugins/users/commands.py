@@ -75,7 +75,7 @@ async def my_config_handler(client: Client, message: Message):
     if not client:
         await message.reply("شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!")
     else:
-        expire_date = datetime.fromtimestamp(client["expiryTime"])
+        expire_date = datetime.fromtimestamp(client["expiryTime"][:-3])
         expire_date = jalali.GregorianToJalali(expire_date.year, expire_date.month, expire_date.day)
         email = client['email']
         v2ray_config = panel.generate_config(email)
