@@ -62,7 +62,7 @@ class V2ray:
         if not client["success"]:
             return False
 
-        return self.generate_config(uuid)
+        return self.generate_config(email)
 
     def get_client(self, email: str):
         try:
@@ -76,9 +76,8 @@ class V2ray:
 
         return self.create_client(email), True
 
-    def generate_config(self, uuid, protocol: str = "vmess"):
-        client = self.xui.get_client(1, uuid=uuid)
-        print(client)
+    def generate_config(self, email: str, protocol: str = "vmess"):
+        client = self.get_client(email)
         payload = {
             "add": config.get("V2RAY_ADDRESS"),
             "aid": "0",
