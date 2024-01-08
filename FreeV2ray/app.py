@@ -49,11 +49,6 @@ async def send_notification(chat_id):
     )
 
 
-async def schedule_notification(chat_id):
-    job = scheduler.add_job(send_notification, "interval", seconds=10, args=(chat_id,))
-    return job
-
-
 scheduler.start()
 
 if __name__ == "__main__":

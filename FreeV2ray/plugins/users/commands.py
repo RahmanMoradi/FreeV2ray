@@ -9,7 +9,7 @@ from pyrogram.types import (
 from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb, array_chunk
 
-from FreeV2ray.app import config, schedule_notification
+from FreeV2ray.app import config, scheduler, send_notification
 from FreeV2ray.v2ray.api import V2ray
 
 from datetime import datetime
@@ -68,9 +68,8 @@ async def get_config_handler(client: Client, message: Message):
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
         # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
+        job = scheduler.add_job(send_notification, "interval", seconds=10, args=(message.chat.id,))
 
-        job = await schedule_notification(message.chat.id)
-        print(job)
         await start_handler(client, message,
                             ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
                              "\n"
