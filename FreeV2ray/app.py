@@ -42,13 +42,6 @@ if config.get("PROXY_HOSTNAME"):
     app.proxy = proxy
 
 
-async def send_notification(chat_id):
-    await app.send_message(
-        chat_id=chat_id,
-        text="تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
-    )
-
-
 scheduler.start()
 
 if __name__ == "__main__":
