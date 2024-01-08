@@ -86,7 +86,7 @@ class V2ray:
         expire_timestamp = int(expire_date.timestamp() * 1000)
 
         return self.xui.update_client(
-            inbound_id=config.get("INBOUND_ID"),
+            inbound_id=int(config.get("INBOUND_ID")),
             email=client.get("email"),
             uuid=client.get("id"),
             enable=client.get("enable"),
