@@ -7,10 +7,10 @@ from pyrogram.types import (
 from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb, array_chunk
 
-from FreeV2ray.app import config
+from FreeV2ray.app import config, scheduler
 from FreeV2ray.v2ray.api import V2ray
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from jdatetime import jalali
 
 
@@ -65,7 +65,14 @@ async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
-        # TODO: add the config that has been created to the database
+        async def send_notification():
+            await client.send_message(
+                message.chat.id,
+                "تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
+            )
+        # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
+        scheduler.add_job(send_notification, "interval", seconds=10)
+
         await start_handler(client, message,
                                 ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
                                  "\n"

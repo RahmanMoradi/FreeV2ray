@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pyrogram import idle
 from pyromod import Client, listen
 
@@ -25,6 +26,8 @@ app = Client(
     plugins=dict(root="plugins")
 )
 
+scheduler = AsyncIOScheduler()
+
 if config.get("PROXY_HOSTNAME"):
     proxy = dict(
         scheme=config.get("PROXY_SCHEME"),
@@ -41,5 +44,6 @@ if config.get("PROXY_HOSTNAME"):
 
 if __name__ == "__main__":
     with app:
+        scheduler.start()
         logger.info("Telegram Bot Is Running ...")
         idle()
