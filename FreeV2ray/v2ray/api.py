@@ -18,12 +18,13 @@ class V2ray:
         self.username = username
         self.password = password
 
+        full_address = "https://" + config.get("V2RAY_ADDRESS") + ":2053"
         # if database was not empty:
         if models.XuiSession.select().first():
             last_session = models.XuiSession.select().order_by(models.XuiSession.id.desc()).get()
             if last_session:
                 self.xui = XUI(
-                    full_address=config.get("V2RAY_ADDRESS"),
+                    full_address=full_address,
                     panel="sanaei",
                     session_string=last_session.session_string
                 )
@@ -35,7 +36,7 @@ class V2ray:
         # if there was no session stored:
         if not self.xui:
             self.xui = XUI(
-                full_address=config.get("V2RAY_ADDRESS"),
+                full_address=full_address,
                 panel="sanaei",
             )
             self.xui.login(self.username, self.password)
