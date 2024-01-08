@@ -9,18 +9,11 @@ from pyrogram.types import (
 from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb, array_chunk
 
-from FreeV2ray.app import config, scheduler
+from FreeV2ray.app import config, scheduler, send_notification
 from FreeV2ray.v2ray.api import V2ray
 
 from datetime import datetime, timedelta
 from jdatetime import jalali
-
-
-async def send_notification(chat_id):
-    await Client.send_message(
-        chat_id=chat_id,
-        text="تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
-    )
 
 
 @Client.on_message(filters.private)
