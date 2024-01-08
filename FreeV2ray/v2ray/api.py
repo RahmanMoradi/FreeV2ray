@@ -101,33 +101,52 @@ class V2ray:
 
     def generate_config(self, email: str, protocol: str = "vmess"):
         client = self.get_client(email)
-        payload = {
-            "add": config.get("V2RAY_ADDRESS"),
-            "aid": "0",
-            "host": config.get("V2RAY_HOST"),
-            "id": client["id"],
-            "net": "ws",
-            "path": config.get("V2RAY_PATH"),
-            "port": config.get("V2RAY_PORT"),
-            "ps": client.get("email"),
-            "scy": "auto",
-            "sni": config.get("V2RAY_SNI"),
-            "tls": "tls",
-            "type": "none",
-            "v": "2"
-        }
+        if protocol == "vmess":
+            payload = {
+                "add": config.get("V2RAY_ADDRESS"),
+                "aid": "0",
+                "host": config.get("V2RAY_HOST"),
+                "id": client["id"],
+                "net": "ws",
+                "path": config.get("V2RAY_PATH"),
+                "port": config.get("V2RAY_PORT"),
+                "ps": client.get("email"),
+                "scy": "auto",
+                "sni": config.get("V2RAY_SNI"),
+                "tls": "tls",
+                "type": "none",
+                "v": "2"
+            }
 
-        # Convert the JSON object to a string
-        json_string = json.dumps(payload)
-        # Convert the string to bytes
-        byte_data = json_string.encode('utf-8')
-        # Encode the bytes
-        encoded_data = base64.b64encode(byte_data)
+            # Convert the JSON object to a string
+            json_string = json.dumps(payload)
+            # Convert the string to bytes
+            byte_data = json_string.encode('utf-8')
+            # Encode the bytes
+            encoded_data = base64.b64encode(byte_data)
 
-        if protocol == "vless":
-            return protocol + "://" + json_string
-        elif protocol == "vmess":
-            return protocol + "://" + encoded_data.decode()
+            return "vmess://" + encoded_data.decode()
+
+        elif protocol == "vless":
+            conf = {
+                "id": client["id"],
+                "add": config.get("V2RAY_ADDRESS"),
+                "port": config.get("V2RAY_PORT"),
+                "ps": client.get("email"),
+            }
+            payload = {
+                "aid": "0",
+                "host": config.get("V2RAY_HOST"),
+                "net": "ws",
+                "path": config.get("V2RAY_PATH"),
+                "scy": "auto",
+                "sni": config.get("V2RAY_SNI"),
+                "tls": "tls",
+                "type": "none",
+                "v": "2",
+            }
+
+            return config_generator(protocol, conf, payload)
         else:
             raise ValueError("Unknown protocol")
 
