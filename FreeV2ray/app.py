@@ -54,8 +54,9 @@ async def schedule_notification(chat_id):
     return job
 
 
+scheduler.start()
+
 if __name__ == "__main__":
-    scheduler.start()
     with app:
         logger.info("Telegram Bot Is Running ...")
         idle()
