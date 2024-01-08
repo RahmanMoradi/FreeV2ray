@@ -18,7 +18,7 @@ class V2ray:
         self.username = username
         self.password = password
 
-        full_address = "https://" + config.get("V2RAY_ADDRESS") + ":2053"
+        full_address = config.get('PANEL_ADDRESS')
         # if database was not empty:
         if models.XuiSession.select().first():
             last_session = models.XuiSession.select().order_by(models.XuiSession.id.desc()).get()
