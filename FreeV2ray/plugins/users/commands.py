@@ -16,6 +16,13 @@ from datetime import datetime, timedelta
 from jdatetime import jalali
 
 
+async def send_notification(chat_id):
+    await Client.send_message(
+        chat_id=chat_id,
+        text="تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
+    )
+
+
 @Client.on_message(filters.private)
 async def check_join(client: Client, message: Message):
     instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
@@ -67,25 +74,16 @@ async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
-        async def send_notification():
-            print(message.chat.id)
-            await client.send_message(
-                message.chat.id,
-                "تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
-            )
         # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
-        job = scheduler.add_job(send_notification, "interval", seconds=10)
-        print(job)
+        job = scheduler.add_job(send_notification, "interval", seconds=10, args=(message.chat.id,))
 
-        # await start_handler(client, message,
-        #                         ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
-        #                          "\n"
-        #                          f"کانفیگ: `{v2ray_config}`"
-        #                          )
-        #                     )
+        await start_handler(client, message,
+                            ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
+                             "\n"
+                             f"کانفیگ: `{v2ray_config}`"
+                             )
+                            )
 
-        await asyncio.sleep(10)
-        print(job)
     else:
         await start_handler(client, message, "شما در حال حاضر کانفیگ دارین!")
 
