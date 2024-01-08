@@ -71,7 +71,8 @@ async def get_config_handler(client: Client, message: Message):
                 "تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
             )
         # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
-        scheduler.add_job(send_notification, "interval", seconds=10)
+        job = scheduler.add_job(send_notification, "interval", seconds=10)
+        print(job)
 
         await start_handler(client, message,
                                 ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
