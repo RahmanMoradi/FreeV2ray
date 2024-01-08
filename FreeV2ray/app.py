@@ -43,7 +43,7 @@ if config.get("PROXY_HOSTNAME"):
 
 
 if __name__ == "__main__":
+    scheduler.start()
     with app:
-        scheduler.start()
         logger.info("Telegram Bot Is Running ...")
         idle()
