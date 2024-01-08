@@ -1,3 +1,5 @@
+import asyncio
+
 from pyrogram import Client, filters
 from pyrogram.types import (
     Message,
@@ -66,6 +68,7 @@ async def get_config_handler(client: Client, message: Message):
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
         async def send_notification():
+            print(message.chat.id)
             await client.send_message(
                 message.chat.id,
                 "تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
@@ -80,6 +83,9 @@ async def get_config_handler(client: Client, message: Message):
                                  f"کانفیگ: `{v2ray_config}`"
                                  )
                             )
+
+        await asyncio.sleep(10)
+        print(job)
     else:
         await start_handler(client, message, "شما در حال حاضر کانفیگ دارین!")
 
