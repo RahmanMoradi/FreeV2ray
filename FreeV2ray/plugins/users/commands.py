@@ -77,12 +77,12 @@ async def get_config_handler(client: Client, message: Message):
         job = scheduler.add_job(send_notification, "interval", seconds=10)
         print(job)
 
-        await start_handler(client, message,
-                                ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
-                                 "\n"
-                                 f"کانفیگ: `{v2ray_config}`"
-                                 )
-                            )
+        # await start_handler(client, message,
+        #                         ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
+        #                          "\n"
+        #                          f"کانفیگ: `{v2ray_config}`"
+        #                          )
+        #                     )
 
         await asyncio.sleep(10)
         print(job)
