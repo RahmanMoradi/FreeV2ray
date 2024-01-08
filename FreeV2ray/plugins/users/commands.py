@@ -69,7 +69,7 @@ async def get_config_handler(client: Client, message: Message):
     if created:
         # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
 
-        job = schedule_notification(message.chat.id)
+        job = await schedule_notification(message.chat.id)
         print(job)
         await start_handler(client, message,
                             ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
