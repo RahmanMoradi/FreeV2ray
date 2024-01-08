@@ -137,12 +137,11 @@ class V2ray:
             payload = {
                 "aid": "0",
                 "host": config.get("V2RAY_HOST"),
-                "net": "ws",
                 "path": config.get("V2RAY_PATH"),
                 "scy": "auto",
                 "sni": config.get("V2RAY_SNI"),
-                "tls": "tls",
-                "type": "none",
+                "security": "tls",
+                "type": "ws",
                 "v": "2",
             }
 
