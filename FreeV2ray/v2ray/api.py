@@ -63,7 +63,7 @@ class V2ray:
         if not client["success"]:
             return False
 
-        return self.generate_config(email)
+        return self.generate_config(email, config.get('V2RAY_PROTOCOL'))
 
     def get_client(self, email: str):
         try:
@@ -124,7 +124,12 @@ class V2ray:
         # Encode the bytes
         encoded_data = base64.b64encode(byte_data)
 
-        return protocol + "://" + encoded_data.decode()
+        if protocol == "vless":
+            return protocol + "://" + json_string
+        elif protocol == "vmess":
+            return protocol + "://" + encoded_data.decode()
+        else:
+            raise ValueError("Unknown protocol")
 
 
 if __name__ == "__main__":

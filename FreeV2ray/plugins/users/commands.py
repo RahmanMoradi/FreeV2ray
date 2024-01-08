@@ -115,7 +115,7 @@ async def my_config_handler(client: Client, message: Message):
         expire_date = datetime.fromtimestamp(int(str(client["expiryTime"])[:-3]))
         expire_date = jalali.GregorianToJalali(expire_date.year, expire_date.month, expire_date.day)
         email = client['email']
-        v2ray_config = panel.generate_config(email)
+        v2ray_config = panel.generate_config(email, config.get('V2RAY_PROTOCOL'))
 
         text = (f"نام کاربری: {email}"
                 "\n"
