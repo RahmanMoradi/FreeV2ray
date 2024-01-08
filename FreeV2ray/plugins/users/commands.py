@@ -74,13 +74,10 @@ async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
-        # expire_days = int(config.get("EXPIRE_TIME"))
-        # notification_days = int(config.get("NOTIFICATION_TIME"))
-        # expire_date = datetime.now() + timedelta(expire_days - notification_days)
-        # job = scheduler.add_job(send_notification, "date", run_date=expire_date, args=(client, message.chat.id))
-
-        notif_date = datetime.now() + timedelta(0, 10)
-        job = scheduler.add_job(send_notification, "date", run_date=notif_date, args=(client, message.chat.id))
+        expire_days = int(config.get("EXPIRE_TIME"))
+        notification_days = int(config.get("NOTIFICATION_TIME"))
+        expire_date = datetime.now() + timedelta(expire_days - notification_days)
+        job = scheduler.add_job(send_notification, "date", run_date=expire_date, args=(client, message.chat.id))
 
         await start_handler(client, message,
                             ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
