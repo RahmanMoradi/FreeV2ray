@@ -12,12 +12,12 @@ from pyromod import listen, ikb, array_chunk
 from FreeV2ray.app import config, scheduler
 from FreeV2ray.v2ray.api import V2ray
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from jdatetime import jalali
 
 
-async def send_notification(chat_id):
-    await Client.send_message(
+async def send_notification(client: Client, chat_id):
+    await client.send_message(
         chat_id=chat_id,
         text="تنها یک روز دیگر تا پایان اعتبار کانفیگ شما باقیست! جهت تمدید دقیقا ۲۴ ساعت اینده به ربات مراجعه کنید!"
     )
@@ -74,8 +74,13 @@ async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
     if created:
-        # scheduler.add_job(send_notification, "interval", days=int(config.get("NOTIFICATION_TIME")))
-        job = scheduler.add_job(send_notification, "interval", seconds=10, args=(message.chat.id,))
+        # expire_days = int(config.get("EXPIRE_TIME"))
+        # notification_days = int(config.get("NOTIFICATION_TIME"))
+        # expire_date = datetime.now() + timedelta(expire_days - notification_days)
+        # job = scheduler.add_job(send_notification, "date", run_date=expire_date, args=(client, message.chat.id))
+
+        notif_date = datetime.now() + timedelta(0, 10)
+        job = scheduler.add_job(send_notification, "date", run_date=notif_date, args=(client, message.chat.id))
 
         await start_handler(client, message,
                             ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
