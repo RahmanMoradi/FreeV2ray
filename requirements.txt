@@ -1,13 +1,14 @@
-python-dotenv==1.0.0
-
-pyxui==0.0.9
-
-pyrogram==2.0.106
-pyromod==3.1.6
-Tgcrypto==1.2.5
-
 aiomysql==0.2.0
+APScheduler==3.10.4
+Faker==22.0.0
+jdatetime==4.1.1
 peewee==3.17.0
 peewee-async==0.9.1
-
+PyMySQL==1.1.0
+Pyrogram==2.0.106
+pyromod==3.1.6
+python-dotenv==1.0.0
+pyxui==0.0.9
+requests==2.31.0
+TgCrypto==1.2.5
 
