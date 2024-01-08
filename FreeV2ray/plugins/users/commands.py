@@ -1,13 +1,10 @@
-import asyncio
-
 from pyrogram import Client, filters
 from pyrogram.types import (
     Message,
     ReplyKeyboardMarkup,
-    ReplyKeyboardRemove,
 )
 from pyrogram.errors import UserNotParticipant
-from pyromod import listen, ikb, array_chunk
+from pyromod import listen, ikb
 
 from FreeV2ray.app import config, scheduler
 from FreeV2ray.v2ray.api import V2ray
