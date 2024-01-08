@@ -76,6 +76,28 @@ class V2ray:
 
         return self.create_client(email), True
 
+    def extend_client_date(self, email: str):
+        client = self.get_client(email)
+        if not client:
+            return False
+
+        expire_days = int(config.get("EXPIRE_TIME"))
+        expire_date = datetime.now() + timedelta(expire_days)
+        expire_timestamp = int(expire_date.timestamp() * 1000)
+
+        return self.xui.update_client(
+            inbound_id=config.get("INBOUND_ID"),
+            email=client.get("email"),
+            uuid=client.get("id"),
+            enable=client.get("enable"),
+            flow="",
+            limit_ip=client.get("limitIp"),
+            total_gb=client.get("totalGB"),
+            expire_time=expire_timestamp,
+            telegram_id=client.get("tgId"),
+            subscription_id=client.get("subId"),
+        )
+
     def generate_config(self, email: str, protocol: str = "vmess"):
         client = self.get_client(email)
         payload = {
@@ -102,6 +124,7 @@ class V2ray:
         encoded_data = base64.b64encode(byte_data)
 
         return protocol + "://" + encoded_data.decode()
+
 
 if __name__ == "__main__":
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))

@@ -79,7 +79,7 @@ async def get_config_handler(client: Client, message: Message):
         expire_date = datetime.now() + timedelta(expire_days - notification_days)
         job = scheduler.add_job(send_notification, "date", run_date=expire_date, args=(client, message.chat.id))
 
-        await start_handler(client, message,
+        return await start_handler(client, message,
                             ("کانفیگ رایگان یک هفته ای شما با موفقیت ساخته شد!"
                              "\n"
                              f"کانفیگ: `{v2ray_config}`"
@@ -87,7 +87,25 @@ async def get_config_handler(client: Client, message: Message):
                             )
 
     else:
-        await start_handler(client, message, "شما در حال حاضر کانفیگ دارین!")
+        v2ray_client = v2ray_config
+        now_timestamp = int(datetime.now().timestamp() * 1000)
+        expire_timestamp = v2ray_client.get("expiryTime")
+        if now_timestamp > expire_timestamp:
+            panel.extend_client_date(v2ray_client.get("email"))
+
+            expire_days = int(config.get("EXPIRE_TIME"))
+            notification_days = int(config.get("NOTIFICATION_TIME"))
+            expire_date = datetime.now() + timedelta(expire_days - notification_days)
+            job = scheduler.add_job(send_notification, "date", run_date=expire_date, args=(client, message.chat.id))
+
+            return await start_handler(
+                client, message,"کانفیگ رایگان شما به مدت یک هفته با موفقیت تمدید شد!")
+
+        else:
+            expire_date = datetime.fromtimestamp(int(str(expire_timestamp)[:-3]))
+            remaining_days = (expire_date - datetime.now()).days
+            await start_handler(
+                client, message, f"از اعتبار کانفیگ شما هنوز {remaining_days} روز دیگر باقیست! لطفا بعد تمام شدن اعتبار اقدام به دریافت مجدد کنید!")
 
 
 async def my_config_handler(client: Client, message: Message):
