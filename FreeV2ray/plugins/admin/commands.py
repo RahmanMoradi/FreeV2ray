@@ -10,7 +10,7 @@ from FreeV2ray.models import get_all_users
 ADMIN = int(config.get('ADMIN_ID'))
 
 
-@Client.on_message(filters.user(ADMIN), filters.command("/all"))
+@Client.on_message(filters.user(ADMIN), filters.command("all"))
 async def send_to_everyone(client: Client, message: Message):
     message = message.chat.ask(
         "سلام ادمین گرامی لطفا پیامی که میخای برای همه ارسال بشه رو برام ارسال کن!",
@@ -27,4 +27,5 @@ async def send_to_everyone(client: Client, message: Message):
         await message.copy(chat_id=user.chat_id)
     else:
         await message.reply("این پیام برای همه ارسال شد!")
+        return start_handler(client, message)
 

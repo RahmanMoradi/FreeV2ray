@@ -60,6 +60,10 @@ async def start_handler(client: Client, message: Message, text=None):
         "کانفیگ من": my_config_handler,
         "پشتیبانی": support_handler,
     }
+
+    if message.text == "/all":
+        return message.continue_propagation()
+
     command = commands.get(message.text)
 
     if command:
