@@ -12,7 +12,7 @@ ADMIN = int(config.get('ADMIN_ID'))
 
 @Client.on_message(filters.user(ADMIN) & filters.command("all"), group=-1)
 async def send_to_everyone(client: Client, message: Message):
-    message = message.chat.ask(
+    message = await message.chat.ask(
         "سلام ادمین گرامی لطفا پیامی که میخای برای همه ارسال بشه رو برام ارسال کن!",
         reply_markup=ReplyKeyboardMarkup([
             ["انصراف"]
