@@ -7,6 +7,7 @@ from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb
 
 from FreeV2ray.app import config, scheduler
+from FreeV2ray.models import add_user
 from FreeV2ray.v2ray.api import V2ray
 
 from datetime import datetime, timedelta
@@ -43,6 +44,7 @@ async def check_join(client: Client, message: Message):
 @Client.on_message(filters.private & filters.command("start"))
 async def start_handler(client: Client, message: Message, text=None):
     if not text:
+        await add_user(message.from_user.id)
         text = "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
 
     message = await message.chat.ask(

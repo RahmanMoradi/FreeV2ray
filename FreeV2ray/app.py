@@ -9,6 +9,7 @@ from dotenv import dotenv_values
 import logging
 
 import FreeV2ray
+from FreeV2ray.models import User
 
 path = os.path.dirname(FreeV2ray.__file__)
 config_path = str(Path(path).resolve().parents[0]) + "/.env"
@@ -45,6 +46,9 @@ if config.get("PROXY_HOSTNAME"):
 scheduler.start()
 
 if __name__ == "__main__":
+    if not User.table_exists():
+        User.create_table()
+
     with app:
         logger.info("Telegram Bot Is Running ...")
         idle()
