@@ -6,7 +6,7 @@ from pyromod.helpers import ikb
 from FreeV2ray.app import  config
 
 
-ADMIN = int(config.get('ADMIN'))
+ADMIN = int(config.get('ADMIN_ID'))
 
 
 @Client.on_message(filters.user(ADMIN), filters.command("/all"))
