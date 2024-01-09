@@ -7,11 +7,34 @@ from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb
 
 from FreeV2ray.app import config, scheduler
-from FreeV2ray.models import add_user
+from FreeV2ray.models import add_user, get_all_users
 from FreeV2ray.v2ray.api import V2ray
 
 from datetime import datetime, timedelta
 from jdatetime import jalali
+
+
+async def send_to_everyone(client: Client, message: Message):
+    if message.from_user.id != int(config.get('ADMIN_ID')):
+        await message.reply("دستور نامعتبر! لطفا دوباره امتجان کنید:")
+        return await start_handler(client, message)
+
+    message = await message.chat.ask(
+        "سلام ادمین گرامی لطفا پیامی که میخای برای همه ارسال بشه رو برام ارسال کن!",
+        reply_markup=ReplyKeyboardMarkup([
+            ["انصراف"]
+        ], resize_keyboard=True)
+    )
+
+    if message.text == "انصراف":
+        return await start_handler(client, message)
+
+    users = get_all_users()
+    for user in users:
+        await message.copy(chat_id=user.chat_id)
+    else:
+        await message.reply("این پیام برای همه ارسال شد!")
+        return await start_handler(client, message)
 
 
 async def send_notification(client: Client, chat_id):
@@ -59,10 +82,9 @@ async def start_handler(client: Client, message: Message, text=None):
         "دریافت کانفیگ": get_config_handler,
         "کانفیگ من": my_config_handler,
         "پشتیبانی": support_handler,
-    }
 
-    # if message.text == "/all":
-    #     return message.continue_propagation()
+        "/all": send_to_everyone,
+    }
 
     command = commands.get(message.text)
 
