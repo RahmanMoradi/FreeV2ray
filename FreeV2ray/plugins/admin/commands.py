@@ -20,12 +20,12 @@ async def send_to_everyone(client: Client, message: Message):
     )
 
     if message.text == "انصراف":
-        return start_handler(client, message)
+        return await start_handler(client, message)
 
     users = get_all_users()
     for user in users:
         await message.copy(chat_id=user.chat_id)
     else:
         await message.reply("این پیام برای همه ارسال شد!")
-        return start_handler(client, message)
+        return await start_handler(client, message)
 
