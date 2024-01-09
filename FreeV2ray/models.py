@@ -27,7 +27,7 @@ class User(BaseModel):
 
 
 async def add_user(user_id: int):
-    user, created = await User.get_or_create(user_id=user_id)
+    user, created = await User.get_or_create(chat_id=user_id)
     return user
 
 
