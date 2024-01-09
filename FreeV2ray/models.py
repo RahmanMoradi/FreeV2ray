@@ -44,6 +44,10 @@ async def add_user(user_id: int):
     return user
 
 
+def get_all_users():
+    return User.select()
+
+
 if __name__ == '__main__':
     async def setup():
         ...
