@@ -29,7 +29,7 @@ class User(BaseModel):
 
 
 async def add_user(user_id: int):
-    user, created = User.get_or_create(chat_id=user_id, created_at=datetime.now())
+    user, created = User.get_or_create(defaults=dict(chat_id=user_id), created_at=datetime.now())
     return user
 
 
