@@ -28,8 +28,19 @@ class User(BaseModel):
     created_at = peewee.DateTimeField()
 
 
+async def get_or_fail(user_id: int):
+    user = User.get_or_none(chat_id=user_id)
+    if user:
+        return user
+
+    return False
+
+
 async def add_user(user_id: int):
-    user, created = User.get_or_create(defaults=dict(chat_id=user_id), created_at=datetime.now())
+    if user := await get_or_fail(user_id):
+        return user
+
+    user = User.create(chat_id=user_id, created_at=datetime.now())
     return user
 
 
