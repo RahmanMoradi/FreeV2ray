@@ -15,6 +15,8 @@ path = os.path.dirname(FreeV2ray.__file__)
 config_path = str(Path(path).resolve().parents[0]) + "/.env"
 config = dotenv_values(config_path)
 
+v2rayng_picture = str(Path(path).resolve().parents[0]) + "/v2rayng.jpg"
+
 logger = logging.getLogger("telegram")
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)

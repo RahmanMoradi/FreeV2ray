@@ -6,7 +6,7 @@ from pyrogram.types import (
 from pyrogram.errors import UserNotParticipant
 from pyromod import listen, ikb
 
-from FreeV2ray.app import config, scheduler
+from FreeV2ray.app import config, scheduler, v2rayng_picture
 from FreeV2ray.models import add_user, get_all_users
 from FreeV2ray.v2ray.api import V2ray
 
@@ -70,7 +70,7 @@ async def start_handler(client: Client, message: Message, text=None):
         await add_user(message.from_user.id)
         await client.send_photo(
             message.chat.id,
-            "v2ray.jpg",
+            v2rayng_picture,
             "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
         )
     else:
