@@ -110,7 +110,7 @@ class V2ray:
                 "net": "ws",
                 "path": config.get("V2RAY_PATH"),
                 "port": config.get("V2RAY_PORT"),
-                "ps": "@" + client.get("CHANNEL"),
+                "ps": "@" + str(client.get("CHANNEL")),
                 "scy": "auto",
                 "sni": config.get("V2RAY_SNI"),
                 "tls": "tls",
