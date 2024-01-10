@@ -47,7 +47,7 @@ async def send_notification(client: Client, chat_id):
 @Client.on_message(filters.private)
 async def check_join(client: Client, message: Message):
     instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
-    channel = await client.get_chat(config.get("CHANNEL"))
+    channel = await client.get_chat(config.get("CHANNEL").split("/"[-1]))
 
     try:
         await client.get_chat_member(channel.id, message.from_user.id)
