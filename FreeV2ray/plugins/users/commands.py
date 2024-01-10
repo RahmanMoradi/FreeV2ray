@@ -71,7 +71,11 @@ async def start_handler(client: Client, message: Message, text=None):
         await client.send_photo(
             message.chat.id,
             v2rayng_picture,
-            "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
+            "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!",
+            reply_markup=ReplyKeyboardMarkup([
+                ["دریافت کانفیگ"],
+                ["پشتیبانی", "کانفیگ من"],
+            ], resize_keyboard=True)
         )
         message = await client.listen(chat_id=message.chat.id)
     else:
