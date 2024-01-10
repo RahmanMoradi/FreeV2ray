@@ -73,6 +73,7 @@ async def start_handler(client: Client, message: Message, text=None):
             v2rayng_picture,
             "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
         )
+        message = await client.listen(chat_id=message.chat.id)
     else:
         message = await message.chat.ask(
             text,
