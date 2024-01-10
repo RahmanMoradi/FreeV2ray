@@ -68,15 +68,19 @@ async def check_join(client: Client, message: Message):
 async def start_handler(client: Client, message: Message, text=None):
     if not text:
         await add_user(message.from_user.id)
-        text = "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
-
-    message = await message.chat.ask(
-        text,
-        reply_markup=ReplyKeyboardMarkup([
-            ["دریافت کانفیگ"],
-            ["پشتیبانی", "کانفیگ من"],
-        ], resize_keyboard=True)
-    )
+        await client.send_photo(
+            message.chat.id,
+            "v2ray.jpg",
+            "با سلام به ربات دریافت v2ray شخصی رایگان خوش امدید!"
+        )
+    else:
+        message = await message.chat.ask(
+            text,
+            reply_markup=ReplyKeyboardMarkup([
+                ["دریافت کانفیگ"],
+                ["پشتیبانی", "کانفیگ من"],
+            ], resize_keyboard=True)
+        )
 
     commands = {
         "دریافت کانفیگ": get_config_handler,
