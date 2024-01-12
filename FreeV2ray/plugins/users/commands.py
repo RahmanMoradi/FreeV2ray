@@ -44,24 +44,24 @@ async def send_notification(client: Client, chat_id):
     )
 
 
-@Client.on_message(filters.private)
-async def check_join(client: Client, message: Message):
-    instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
-    channel = await client.get_chat(config.get("CHANNEL"))
-
-    try:
-        await client.get_chat_member(channel.id, message.from_user.id)
-        await message.continue_propagation()
-    except UserNotParticipant:
-        return await client.send_message(
-            message.chat.id,
-            "لطفا برای دریافت کانفیگ v2ray رایگان اول اینستاگرام مارا فالو کرده سپس در کانال تلگرامی ما جوین شوید!",
-            reply_markup=ikb([
-                [("پیج اینستاگرام ما", instagram, "url")],
-                [("کانال تلگرام ما", channel.invite_link, "url")],
-                [("عضو شدم", "joined")]
-            ])
-        )
+# @Client.on_message(filters.private)
+# async def check_join(client: Client, message: Message):
+#     instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
+#     channel = await client.get_chat(config.get("CHANNEL"))
+#
+#     try:
+#         await client.get_chat_member(channel.id, message.from_user.id)
+#         await message.continue_propagation()
+#     except UserNotParticipant:
+#         return await client.send_message(
+#             message.chat.id,
+#             "لطفا برای دریافت کانفیگ v2ray رایگان اول اینستاگرام مارا فالو کرده سپس در کانال تلگرامی ما جوین شوید!",
+#             reply_markup=ikb([
+#                 [("پیج اینستاگرام ما", instagram, "url")],
+#                 [("کانال تلگرام ما", channel.invite_link, "url")],
+#                 [("عضو شدم", "joined")]
+#             ])
+#         )
 
 
 @Client.on_message(filters.private & filters.command("start"))
