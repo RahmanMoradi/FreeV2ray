@@ -2,11 +2,8 @@ import os
 from pathlib import Path
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from pyrogram import idle, filters
-from pyrogram.types import Message
-from pyrogram.errors import UserNotParticipant
+from pyrogram import idle
 from pyromod import Client, listen
-from pyromod.helpers import ikb
 
 from dotenv import dotenv_values
 import logging
@@ -46,25 +43,6 @@ if config.get("PROXY_HOSTNAME"):
         proxy["password"] = password
 
     app.proxy = proxy
-
-@app.on_message(filters.private)
-async def check_join(client: Client, message: Message):
-    instagram = "https://www.instagram.com/" + config.get('INSTAGRAM')
-    channel = await client.get_chat(config.get("CHANNEL"))
-
-    try:
-        await client.get_chat_member(channel.id, message.from_user.id)
-        await message.continue_propagation()
-    except UserNotParticipant:
-        return await client.send_message(
-            message.chat.id,
-            "لطفا برای دریافت کانفیگ v2ray رایگان اول اینستاگرام مارا فالو کرده سپس در کانال تلگرامی ما جوین شوید!",
-            reply_markup=ikb([
-                [("پیج اینستاگرام ما", instagram, "url")],
-                [("کانال تلگرام ما", channel.invite_link, "url")],
-                [("عضو شدم", "joined")]
-            ])
-        )
 
 
 scheduler.start()
