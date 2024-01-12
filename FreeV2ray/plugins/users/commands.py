@@ -78,7 +78,7 @@ async def start_handler(client: Client, message: Message):
     )
 
 
-@Client.on_message(filters.private & filters.command("دریافت کانفیگ"))
+@Client.on_message(filters.private & filters.command("دریافت کانفیگ", prefixes=""))
 async def get_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_config, created = panel.get_or_create_client(str(message.from_user.id))
@@ -114,7 +114,7 @@ async def get_config_handler(client: Client, message: Message):
                 f"از اعتبار کانفیگ شما هنوز {remaining_days} روز دیگر باقیست! لطفا بعد تمام شدن اعتبار اقدام به دریافت مجدد کنید!")
 
 
-@Client.on_message(filters.private & filters.command("کانفیگ من"))
+@Client.on_message(filters.private & filters.command("کانفیگ من", prefixes=""))
 async def my_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
     v2ray_client = panel.get_client(str(message.from_user.id))
@@ -136,7 +136,7 @@ async def my_config_handler(client: Client, message: Message):
         return await message.reply(text)
 
 
-@Client.on_message(filters.private & filters.command("پشتیبانی"))
+@Client.on_message(filters.private & filters.command("پشتیبانی", prefixes=""))
 async def support_handler(client: Client, message: Message):
     text = f"جهت هرگونه سوال یا مشکل به این ایدی مراجعه فرمایین: {config.get('ADMIN')}"
     return await message.reply(text)
