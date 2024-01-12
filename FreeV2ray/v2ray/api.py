@@ -93,7 +93,7 @@ class V2ray:
             enable=client.get("enable"),
             flow="",
             limit_ip=client.get("limitIp"),
-            total_gb=client.get("totalGB"),
+            total_gb=int(client.get("totalGB")) + int(config.get("TOTAL_GB")),
             expire_time=expire_timestamp,
             telegram_id=client.get("tgId"),
             subscription_id=client.get("subId"),
