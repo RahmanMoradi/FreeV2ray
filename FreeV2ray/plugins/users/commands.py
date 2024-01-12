@@ -144,14 +144,14 @@ async def get_config_handler(client: Client, message: Message):
 
 async def my_config_handler(client: Client, message: Message):
     panel = V2ray(config.get("PANEL_USERNAME"), config.get("PANEL_PASSWORD"))
-    client = panel.get_client(str(message.from_user.id))
-    if not client:
+    v2ray_client = panel.get_client(str(message.from_user.id))
+    if not v2ray_client:
         text = "شما در حال حاضر هیچ کانفیگی دریافت نکرده اید!"
         return await start_handler(client, message, text=text)
     else:
-        expire_date = datetime.fromtimestamp(int(str(client["expiryTime"])[:-3]))
+        expire_date = datetime.fromtimestamp(int(str(v2ray_client["expiryTime"])[:-3]))
         expire_date = jalali.GregorianToJalali(expire_date.year, expire_date.month, expire_date.day)
-        email = client['email']
+        email = v2ray_client['email']
         v2ray_config = panel.generate_config(email, config.get('V2RAY_PROTOCOL'))
 
         text = (f"نام کاربری: {email}"
