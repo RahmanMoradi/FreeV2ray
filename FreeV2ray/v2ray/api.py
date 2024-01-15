@@ -110,7 +110,7 @@ class V2ray:
                 "net": "ws",
                 "path": config.get("V2RAY_PATH"),
                 "port": config.get("V2RAY_PORT"),
-                "ps": config.get("CHANNEL"),
+                "ps": config.get("V2RAY_PS"),
                 "scy": "auto",
                 "sni": config.get("V2RAY_SNI"),
                 "tls": "tls",
@@ -132,7 +132,7 @@ class V2ray:
                 "id": client["id"],
                 "add": config.get("V2RAY_ADDRESS"),
                 "port": config.get("V2RAY_PORT"),
-                "ps": config.get("CHANNEL"),
+                "ps": config.get("V2RAY_PS"),
             }
             payload = {
                 "aid": "0",
